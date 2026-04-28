@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="App de tests para preparar las oposiciones de Arquitecto de la Junta de Andalucía. 1.928 preguntas en 105 temas." />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a1714" media="(prefers-color-scheme: dark)" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Test Arquitectura" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Test Arquitectura · Oposición Junta de Andalucía</title>
+
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600&family=Fraunces:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile.css" />
+
+  <!-- Aplicar tema/densidad/tipografía guardados ANTES del montaje React (evita parpadeo) -->
+  <script>
+    (function () {
+      try {
+        var s = JSON.parse(localStorage.getItem('test_arq_ja_ajustes_v1') || '{}');
+        var d = document.documentElement;
+        d.dataset.theme = s.theme || 'light';
+        d.dataset.density = s.density || 'cozy';
+        d.dataset.type = s.typography || 'sans';
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
+
+  <style>
+    /* Pantalla de carga mostrada hasta que React monta */
+    #__loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg, #ffffff);
+      z-index: 100;
+      transition: opacity .25s ease;
+    }
+    #__loader.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #__loader .msg {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 12px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9b9b9a;
+    }
+  </style>
+</head>
+<body>
+  <div id="__loader"><span class="msg">Cargando banco de preguntas…</span></div>
+  <div id="root"></div>
+
+  <!-- React (producción minificada) + Babel en navegador -->
+  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+  <!-- Componentes (Babel los transpila al cargar) -->
+  <script type="text/babel" src="data.jsx"></script>
+  <script type="text/babel" src="dashboard.jsx"></script>
+  <script type="text/babel" src="temas.jsx"></script>
+  <script type="text/babel" src="test.jsx"></script>
+  <script type="text/babel" src="stats.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+
+  <!-- Ocultar el loader cuando React haya montado algo en #root -->
+  <script>
+    (function () {
+      var loader = document.getElementById('__loader');
+      var root = document.getElementById('root');
+      if (!loader || !root) return;
+      var t = setInterval(function () {
+        if (root.firstChild) {
+          loader.classList.add('hide');
+          setTimeout(function () { loader.remove(); }, 300);
+          clearInterval(t);
+        }
+      }, 80);
+      // Salvavidas: ocultar en cualquier caso a los 20 s
+      setTimeout(function () { clearInterval(t); if (loader) loader.remove(); }, 20000);
+    })();
+  </script>
+</body>
+</html>
