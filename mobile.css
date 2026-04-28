@@ -1,0 +1,262 @@
+/* ============================================================
+   mobile.css — adaptaciones móvil/iPhone
+   Activa con (max-width: 640px). Respeta safe-area-insets.
+   ============================================================ */
+
+/* Body — bloquear bounce, dar fondo correcto en notch/home indicator */
+@supports (padding: max(0px)) {
+  html, body { background: var(--bg); }
+}
+
+/* Anchos cómodos: el media de 720px ya hace algunas reducciones; aquí afinamos para iPhone */
+@media (max-width: 640px) {
+
+  /* ---------- TopBar ---------- */
+  .topbar {
+    padding: 10px 16px;
+    padding-top: max(10px, env(safe-area-inset-top));
+    flex-wrap: nowrap;
+    gap: 8px;
+    min-height: 52px;
+  }
+  .topbar .brand {
+    gap: 8px;
+    font-size: 14px;
+    flex: 1;
+    min-width: 0;
+  }
+  .topbar .brand .brand-logo {
+    width: 32px !important;
+    height: 32px !important;
+    flex-shrink: 0;
+  }
+  .topbar .brand > span:not(.subtitle) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .topbar .brand .subtitle { display: none; }
+  .topbar .meta { display: none; }
+  /* Ocultar nav superior — la sustituimos por bottom nav */
+  .topbar .nav { display: none; }
+
+  /* ---------- Main padding ---------- */
+  .main {
+    padding: 16px 14px;
+    padding-bottom: calc(78px + env(safe-area-inset-bottom));
+  }
+
+  /* ---------- Tipografía ---------- */
+  h1 { font-size: 22px; line-height: 1.2; }
+  h2 { font-size: 17px; }
+  .hero-title { padding: 8px 0 4px; }
+  .hero-title h1 { font-size: 24px; }
+  .hero-title p { font-size: 14px; margin-bottom: 16px; }
+
+  /* ---------- Dashboard ---------- */
+  .dash-hero { gap: 16px; margin-bottom: 24px; }
+  .hero-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat { padding: 12px; }
+  .stat .val { font-size: 22px; }
+
+  .blocks { grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px; }
+  .block-card { padding: 16px; }
+
+  /* Heat-map: menos columnas para que cada celda sea pulsable */
+  .tema-grid.comun { grid-template-columns: repeat(10, 1fr); }
+  .tema-grid.especifico { grid-template-columns: repeat(10, 1fr); }
+  .tema-cell { font-size: 11px; }
+
+  .quick-actions {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .quick-actions .quick {
+    padding: 14px 12px;
+    min-height: 80px;
+  }
+  .quick-actions .quick .label { font-size: 14px; }
+  .quick-actions .quick .desc { font-size: 11px; }
+
+  /* ---------- Temario ---------- */
+  .temas-toolbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .temas-toolbar .search { flex: 1 1 100%; order: -1; }
+  .temas-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .temas-grid[data-density="compact"] {
+    grid-template-columns: 1fr 1fr;
+  }
+  .temas-list .row {
+    grid-template-columns: 36px 1fr auto;
+    padding: 12px;
+    gap: 10px;
+  }
+  .temas-list .row .hide-mobile { display: none; }
+
+  /* Tema detail: ya pasa a 1 col en 900px; refinamos */
+  .tema-detail { gap: 18px; }
+
+  /* ---------- Test (pregunta) ---------- */
+  .test-shell {
+    padding: 0;
+  }
+  .test-header {
+    padding: 8px 0 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .test-header .left h2 { font-size: 17px; }
+  .test-header .left .sub { font-size: 12px; }
+  .test-header .right { gap: 8px; }
+  .test-header .timer { font-size: 14px; }
+
+  .q-card {
+    padding: 18px 16px !important;
+    margin-bottom: 14px;
+    border-radius: 12px;
+  }
+  .q-text {
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+    margin-bottom: 18px !important;
+  }
+  .q-options { gap: 8px !important; }
+  .q-option {
+    padding: 12px 12px !important;
+    font-size: 14px !important;
+    min-height: 52px;
+    align-items: flex-start !important;
+    line-height: 1.4;
+  }
+  .q-option .letter {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 13px !important;
+    flex-shrink: 0;
+  }
+  .q-explanation { font-size: 13px; line-height: 1.5; }
+  .q-number { font-size: 11px; }
+
+  /* Acciones del test (anterior, siguiente, marcar) — barra fija inferior por encima del bottom-nav */
+  .q-actions {
+    position: sticky;
+    bottom: calc(60px + env(safe-area-inset-bottom));
+    background: var(--bg);
+    margin: 16px -14px 0;
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+    z-index: 5;
+  }
+  .q-actions > .btn { flex: 1; min-height: 44px; }
+  .q-actions .btn.btn-sm { font-size: 12px; padding: 8px 10px; min-height: 36px; }
+  .q-actions > div { display: flex; gap: 8px; flex: 2; }
+
+  /* ---------- Resultados ---------- */
+  .results-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  /* ---------- Stats ---------- */
+  .stats-layout { grid-template-columns: 1fr; gap: 14px; }
+  .dist-row { grid-template-columns: 90px 1fr 40px; gap: 8px; font-size: 12px; }
+
+  /* ---------- Ajustes ---------- */
+  .segmented {
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .segmented::-webkit-scrollbar { display: none; }
+  .segmented button {
+    flex: 1;
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  /* Setting row: stack label + control */
+  .ajustes-row {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  /* Botones genéricos: hit target */
+  .btn { min-height: 40px; padding: 10px 14px; }
+  .btn.primary { font-size: 14px; }
+
+  /* Inputs */
+  input[type="text"], input[type="number"], input[type="search"], textarea, select {
+    font-size: 16px; /* iOS no zoom on focus */
+  }
+}
+
+/* ---------- Bottom nav (siempre montada, solo visible en móvil) ---------- */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 6px 4px;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom));
+    z-index: 50;
+    backdrop-filter: saturate(1.4) blur(20px);
+    -webkit-backdrop-filter: saturate(1.4) blur(20px);
+  }
+  .bottom-nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 6px 2px;
+    border-radius: 8px;
+    color: var(--text-mute);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: color .15s, background .15s;
+    min-height: 50px;
+  }
+  .bottom-nav button .ico {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bottom-nav button .ico svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .bottom-nav button.active {
+    color: var(--accent);
+  }
+  .bottom-nav button:active { background: var(--bg-elev-2); }
+}
+
+/* En móvil, ocultar elementos que sólo son útiles en escritorio */
+@media (max-width: 640px) {
+  .desktop-only { display: none !important; }
+}
+@media (min-width: 641px) {
+  .mobile-only { display: none !important; }
+}
